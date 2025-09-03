@@ -38,14 +38,20 @@ pip install -r requirements.txt
 Note: This project has been tested with Python 3.10+.
 
 ## Configuration / Parameters
-Parameters can be modified directly in ```main.py```:
-| Parameter       | Description                     | Example |
-|-----------------|---------------------------------|---------|
-| grid_size       | Size of the 2D lattice (NxN)    | 100      |
-| temperature     | Simulation temperature           | 2.5     |
-| sweeps          | Number of Monte Carlo sweeps     | 1000    |
-| output_folder   | Folder where PNG images are saved| data/ising_images |
+Parameters can be modified directly in `main.py`:
 
+| Parameter           | Description                                                                 | Example |
+|---------------------|-----------------------------------------------------------------------------|---------|
+| N                   | Size of the 2D lattice (NxN)                                               | 150     |
+| sweeps              | Number of Monte Carlo sweeps per simulation                                 | 1000    |
+| temps               | List of temperatures to simulate                                            | [0.01, 1.0, 2.0, 2.27, 3.0] |
+| num_realizations    | Number of independent simulations per temperature. Each realization has a unique random seed| 10      |
+| output_folder       | Folder where PNG images will be saved                                       | data/ising_images |
+| seed                | Optional random seed for reproducibility (one is generated per realization)| None    |
+| csv_file            | CSV file path to store magnetization and energy for each realization        | ising_results.csv |
+
+### Notes
+- PNG filenames include the temperature, realization index, and seed, e.g., `ising_T2.27_r3_seed123456.png`.  
 
 ## To Run the Script
 Parameters such as grid size, temperature, and number of sweeps can be modified directly in ```main.py```.
