@@ -1,7 +1,6 @@
 import numpy as np
 from numba import njit
 
-@njit
 def initial_grid(N, seed=None):
     if seed is not None:
         np.random.seed(seed)

@@ -6,9 +6,9 @@ def main():
     output_folder = "data/ising_images"
     os.makedirs(output_folder, exist_ok=True)
 
-    N = 1000
+    N = 150
     sweeps = 1000
-    temps = [1.0, 2.5, 3.0]
+    temps = [0.01, 1.0, 1.5, 2.0, 2.27, 2.5, 3.0, 4.0]
 
     for T in temps:
         grid = run_simulation(N, T, sweeps, seed=42)
