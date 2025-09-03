@@ -31,3 +31,19 @@ def run_simulation(N, T, sweeps, seed=None):
     for _ in range(sweeps):
         metropolis_sweep(grid, T)
     return grid
+
+def compute_magnetization(grid):
+    return np.mean(grid)
+
+def compute_energy(grid):
+    N = grid.shape[0]
+    energy = 0
+    for i in range(N):
+        for j in range(N):
+            spin = grid[i, j]
+            neighbors = (
+                grid[(i+1)%N, j] +
+                grid[i, (j+1)%N]
+            )
+            energy -= spin * neighbors
+    return energy / (N * N)

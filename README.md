@@ -52,6 +52,7 @@ Parameters can be modified directly in `main.py`:
 
 ### Notes
 - PNG filenames include the temperature, realization index, and seed, e.g., `ising_T2.27_r3_seed123456.png`.  
+- Statistical properties (magnetization, energy) are logged in `csv_file`.
 
 ## To Run the Script
 Parameters such as grid size, temperature, and number of sweeps can be modified directly in ```main.py```.
