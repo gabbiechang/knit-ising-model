@@ -23,16 +23,23 @@ def save_grid_image(grid, filename):
 
 def add_rice_stitch_border(grid, border_width=10):
     """
-    Add a rice stitch (checkerboard) border to all four edges of the grid,
-    including corners.
+    Returns a larger grid with a rice stitch (checkerboard) border added to all 
+    four edges of the grid, including corners.
     """
     N = grid.shape[0]
-    bordered = grid.copy()
-    for i in range(N):
-        for j in range(N):
-            if i < border_width or i >= N - border_width or j < border_width or j >= N - border_width:
-                bordered[i, j] = 1 if (i + j) % 2 == 0 else -1
-    return bordered
+    M = grid.shape[1] if grid.ndim > 1 else N  # for non-square grids
+
+    new_shape = (N + 2*border_width, M + 2*border_width)
+
+    # Create full checkerboard pattern
+    i_idx, j_idx = np.indices(new_shape)
+    checkerboard = np.where((i_idx + j_idx) % 2 == 0, 1, -1)
+
+    # Insert original grid into the center
+    checkerboard[border_width:border_width+N, border_width:border_width+M] = grid
+
+    return checkerboard
+
 
 
 def add_top_bottom_rows(grid, num_rows=20):
