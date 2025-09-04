@@ -1,11 +1,15 @@
 import os
 import numpy as np
 import csv
+from datetime import datetime
 from ising import run_simulation, compute_magnetization, compute_energy
 from image_utils import save_grid_image
 
 def main():
-    output_folder = "data/ising_images"
+    # Make a unique run folder with timestamp
+    run_id = datetime.now().strftime("ising_run_%Y%m%d_%H%M%S")
+    run_folder = os.path.join("data", run_id)
+    output_folder = os.path.join(run_folder, "ising_images")
     os.makedirs(output_folder, exist_ok=True)
 
     N = 150
@@ -13,8 +17,7 @@ def main():
     temps = [0.01, 1.0, 1.5, 2.0, 2.27, 2.5, 3.0, 4.0]
     num_realizations = 10
 
-    csv_file = "data/ising_results.csv"
-    os.makedirs("data", exist_ok=True) # Ensure 'data' directory exists
+    csv_file = os.path.join(run_folder, "ising_results.csv")
     with open(csv_file, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["temperature", "realization", "seed", "magnetization", "energy"])
