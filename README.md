@@ -41,8 +41,11 @@ Parameters such as grid size, temperature, and number of sweeps can be modified 
 ```bash
 python3 main.py
 ```
-
-Note: This project has been tested with Python 3.10+.
+You can optionally specify the number of CPU cores to use for parallel execution using the `--cores` flag.  
+If not specified, the program will use all available cores by default.
+```bash
+python3 main.py --cores 8
+```
 
 ## Configuration / Parameters
 Parameters can be modified directly in `main.py`:
