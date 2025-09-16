@@ -7,6 +7,11 @@ from ising import run_simulation, compute_magnetization, compute_energy
 from image_utils import save_grid_image
 from concurrent.futures import ProcessPoolExecutor
 
+N = 150
+STEPS = N*N*10000
+TEMPS = [0.00000000001, 0.01, 1.0, 1.5, 2.0, 2.27, 2.5, 3.0, 4.0]
+NUM_REALIZATIONS = 10
+
 def worker(args):
     T, r, N, steps, output_folder = args
     seed = np.random.randint(0, 1000000)
@@ -27,14 +32,9 @@ def main():
     output_folder = os.path.join(run_folder, "ising_images")
     os.makedirs(output_folder, exist_ok=True)
 
-    N = 150
-    steps = N*N*10000
-    temps = [0.00000000001, 0.01, 1.0, 1.5, 2.0, 2.27, 2.5, 3.0, 4.0]
-    num_realizations = 10
-
     csv_file = os.path.join(run_folder, "ising_results.csv")
 
-    tasks = [(T, r, N, steps, output_folder) for T in temps for r in range(num_realizations)]
+    tasks = [(T, r, N, STEPS, output_folder) for T in TEMPS for r in range(NUM_REALIZATIONS)]
 
     with ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
         results = list(executor.map(worker, tasks))
