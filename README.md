@@ -37,7 +37,7 @@ pip install -r requirements.txt
 ```
 
 5. To Run the Script:
-Parameters such as grid size, temperature, and number of sweeps can be modified directly in `main.py`.
+Parameters such as grid size, temperature, and number of steps can be modified directly in `main.py`.
 ```bash
 python3 main.py
 ```
@@ -53,7 +53,7 @@ Parameters can be modified directly in `main.py`:
 | Parameter           | Description                                                                 | Example |
 |---------------------|-----------------------------------------------------------------------------|---------|
 | N                   | Size of the 2D lattice (NxN)                                               | 150     |
-| sweeps              | Number of Monte Carlo sweeps per simulation                                 | 1000    |
+| steps              | Number of Monte Carlo steps per simulation                                 | 1000    |
 | temps               | List of temperatures to simulate                                            | [0.01, 1.0, 2.0, 2.27, 3.0] |
 | num_realizations    | Number of independent simulations per temperature. Each realization has a unique random seed| 10      |
 | output_folder       | Folder where data from each run will be saved                                       | data/ising_run_20250904_092635 |

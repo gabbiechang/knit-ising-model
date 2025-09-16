@@ -1,16 +1,15 @@
 import numpy as np
 from numba import njit
 
-def initial_grid(N, seed=None):
-    if seed is not None:
-        np.random.seed(seed)
+def initial_grid(N, seed):
+    np.random.seed(seed) # TODO: investigate if we need to record this random num generator state
     # Generate 0 or 1 and map to -1 or +1
-    return 2 * np.random.randint(0, 2, size=(N, N)) - 1
+    return (2 * np.random.randint(0, 2, size=(N, N))) - 1
 
 @njit
-def metropolis_sweep(grid, T):
+def metropolis_sweep(grid, T, steps):
     N = grid.shape[0]
-    for _ in range(N * N):
+    for _ in range(steps):
         i = np.random.randint(0, N)
         j = np.random.randint(0, N)
         spin = grid[i, j]
@@ -26,10 +25,9 @@ def metropolis_sweep(grid, T):
     return grid
 
 
-def run_simulation(N, T, sweeps, seed=None):
+def run_simulation(N, T, steps, seed):
     grid = initial_grid(N, seed)
-    for _ in range(sweeps):
-        metropolis_sweep(grid, T)
+    metropolis_sweep(grid, T, steps)
     return grid
 
 def compute_magnetization(grid):
@@ -43,7 +41,9 @@ def compute_energy(grid):
             spin = grid[i, j]
             neighbors = (
                 grid[(i+1)%N, j] +
-                grid[i, (j+1)%N]
+                grid[i, (j+1)%N] +
+                grid[(i-1)%N, j] +
+                grid[i, (j-1)%N]
             )
             energy -= spin * neighbors
     return energy / (N * N)
