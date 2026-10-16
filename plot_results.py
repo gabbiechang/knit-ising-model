@@ -58,3 +58,40 @@ def plot_ising_results(csv_file, output_folder="plots"):
     plt.close()
 
     print(f"Plots saved to {output_folder}")
+
+
+def plot_comparison(run_folder, output_folder="plots"):
+    """
+    Compare Metropolis vs Wolff results (requires ising_results.csv and wolff_results.csv)
+    """
+    os.makedirs(output_folder, exist_ok=True)
+
+    metro_csv = os.path.join(run_folder, "ising_results.csv")
+    wolff_csv = os.path.join(run_folder, "wolff_results.csv")
+
+    if not os.path.exists(metro_csv) or not os.path.exists(wolff_csv):
+        print("Missing CSV files for comparison.")
+        return
+
+    df_metro = pd.read_csv(metro_csv)
+    df_wolff = pd.read_csv(wolff_csv)
+
+    # Group and average
+    metro_stats = df_metro.groupby("temperature")["magnetization"].agg([np.mean, np.std])
+    wolff_stats = df_wolff.groupby("temperature")["magnetization"].agg([np.mean, np.std])
+
+    plt.figure(figsize=(8,6))
+    plt.errorbar(metro_stats.index, np.abs(metro_stats["mean"]), yerr=metro_stats["std"],
+                 fmt="o-", capsize=3, label="Metropolis")
+    plt.errorbar(wolff_stats.index, np.abs(wolff_stats["mean"]), yerr=wolff_stats["std"],
+                 fmt="s-", capsize=3, label="Wolff")
+
+    plt.xlabel("Temperature T")
+    plt.ylabel(r"$\langle |M| \rangle / N$")
+    plt.title("Magnetization: Metropolis vs Wolff")
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(os.path.join(output_folder, "magnetization_comparison.png"))
+    plt.close()
+
+    print(f"Comparison plot saved to {output_folder}")
